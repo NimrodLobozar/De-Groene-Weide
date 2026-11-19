@@ -1,0 +1,58 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "de-groene-weide",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-11-16",
+
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "de-groene-weide-db",
+      "database_id": "078cc852-ca99-44f3-9d41-06df59fb4ac8",
+      "migrations_dir": "migrations"
+    }
+  ],
+
+  "send_email": [
+    {
+      "name": "EMAIL"
+    }
+  ],
+
+  "kv_namespaces": [
+    {
+      "binding": "MEDIA",
+      "id": "689c5480b7cf41ab8ffde07f6a60fc52"
+    }
+  ],
+
+  "vars": {
+    "SITE_URL": "https://degroeneweide.danielsturkenboom.nl",
+    "MAIL_BOEKINGEN": "boekingen@degroeneweide.danielsturkenboom.nl",
+    "MAIL_RECEPTIE": "receptie@degroeneweide.danielsturkenboom.nl",
+    "MAIL_NOTIFICATIE": "receptie@danielsturkenboom.nl"
+  },
+
+  "routes": [
+    {
+      "pattern": "degroeneweide.danielsturkenboom.nl",
+      "custom_domain": true
+    }
+  ],
+
+  "observability": {
+    "enabled": true,
+    "traces": {
+      "enabled": true,
+      "head_sampling_rate": 0.1
+    }
+  }
+}
+

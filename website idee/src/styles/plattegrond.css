@@ -1,0 +1,602 @@
+/* ==========================================================================
+   Plattegrond — het erf, de plekken en het programma
+   Alles hangt onder .plattegrond-sectie, zodat het niet botst met de rest.
+   De kleuren komen uit de stijlgids (tokens.css); de tekening zelf houdt
+   haar eigen kleuren, want die staan als fill in de SVG.
+   ========================================================================== */
+
+.plattegrond-sectie {
+  --paper: #fff;
+  --green-900: #1c3a25;
+  --green-800: var(--wedegroen-donker);
+  --warm: var(--kam-oranje);
+  --warm-soft: #f6c6a3;
+  --straw: var(--eigel);
+  --straw-soft: #fbe6a8;
+
+  background: var(--vlak-zacht);
+  padding-block: clamp(28px, 4vw, 56px);
+}
+
+/* --- de indeling: kaart links, paneel rechts ----------------------------- */
+
+.plattegrond-sectie .map-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+  gap: clamp(20px, 2.4vw, 34px);
+  align-items: start;
+}
+
+.plattegrond-sectie .map-main {
+  min-width: 0;
+}
+
+.plattegrond-sectie .map-frame {
+  background: var(--paper);
+  border: 1px solid var(--lijn);
+  border-radius: var(--r-groot);
+  padding: clamp(8px, 1vw, 14px);
+  box-shadow: var(--schaduw-2);
+}
+
+.plattegrond-sectie .map-scroll {
+  overflow-x: auto;
+  border-radius: var(--r-kaart);
+  -webkit-overflow-scrolling: touch;
+}
+
+.plattegrond-sectie .map-svg {
+  width: 100%;
+  height: auto;
+  min-width: 560px;
+}
+
+/* --- de tekening --------------------------------------------------------- */
+
+.plattegrond-sectie .map-label {
+  font-family: var(--font-kop);
+  font-weight: 600;
+  font-size: 25px;
+  fill: var(--green-900);
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.plattegrond-sectie .map-label-sm {
+  font-size: 17px;
+}
+
+.plattegrond-sectie .map-label-xs {
+  font-size: 14px;
+}
+
+.plattegrond-sectie .map-road {
+  font-family: var(--font-tekst);
+  font-size: 15px;
+  font-weight: 700;
+  fill: #f7f2e7;
+  text-anchor: middle;
+  letter-spacing: 0.04em;
+}
+
+.plattegrond-sectie .map-sign {
+  fill: var(--paper);
+  stroke: rgba(29, 43, 33, 0.18);
+  stroke-width: 1.5;
+}
+
+/* Klikbare plekken: een rand bij hover, toetsenbordfocus en als hij gekozen is */
+.plattegrond-sectie .zone {
+  cursor: pointer;
+  outline: none;
+}
+
+.plattegrond-sectie .zone-bg {
+  stroke: transparent;
+  stroke-width: 0;
+  transition:
+    stroke 0.2s ease,
+    stroke-width 0.2s ease,
+    filter 0.2s ease;
+}
+
+.plattegrond-sectie .zone-dashed {
+  stroke: var(--straw);
+  stroke-width: 4;
+  stroke-dasharray: 10 8;
+}
+
+.plattegrond-sectie .zone:hover .zone-bg {
+  stroke: rgba(238, 138, 60, 0.6);
+  stroke-width: 4;
+  stroke-dasharray: none;
+}
+
+.plattegrond-sectie .zone:focus-visible .zone-bg {
+  stroke: var(--green-900);
+  stroke-width: 5;
+  stroke-dasharray: none;
+}
+
+.plattegrond-sectie .zone.is-active .zone-bg {
+  stroke: var(--warm);
+  stroke-width: 6;
+  stroke-dasharray: none;
+  filter: brightness(1.05);
+}
+
+/* Het gele bolletje met het aantal activiteiten op de gekozen dag */
+.plattegrond-sectie .zone-badge {
+  pointer-events: none;
+}
+
+.plattegrond-sectie .zone-badge circle {
+  fill: var(--straw);
+  stroke: var(--paper);
+  stroke-width: 3;
+}
+
+.plattegrond-sectie .zone-badge text {
+  fill: var(--green-900);
+  font-family: var(--font-tekst);
+  font-size: 15px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.plattegrond-sectie .map-hint {
+  display: none;
+  margin: 10px 4px 2px;
+  font-size: var(--mini);
+  color: var(--tekst-zacht);
+}
+
+/* --- de knoppen onder de kaart ------------------------------------------ */
+
+.plattegrond-sectie .map-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.plattegrond-sectie .chip-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: var(--r-pil);
+  background: var(--straw);
+  color: var(--green-900);
+  font-size: 0.74rem;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- het paneel --------------------------------------------------------- */
+
+.plattegrond-sectie .map-panel {
+  --panel-pad: clamp(18px, 1.6vw, 26px);
+  scroll-margin-top: 80px;
+  background: var(--green-800);
+  color: var(--melk);
+  border-radius: var(--r-groot);
+  padding: var(--panel-pad);
+  box-shadow: var(--schaduw-3);
+}
+
+.plattegrond-sectie .map-panel h2,
+.plattegrond-sectie .map-panel h3 {
+  color: var(--paper);
+}
+
+.plattegrond-sectie .map-panel-titel {
+  font-size: 1.65rem;
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+
+.plattegrond-sectie .map-panel-tag {
+  margin: 0 0 8px;
+  font-size: var(--mini);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--straw);
+}
+
+.plattegrond-sectie .map-panel-tekst {
+  margin: 0;
+  color: rgba(251, 250, 246, 0.86);
+  font-size: var(--body-klein);
+  line-height: 1.55;
+}
+
+.plattegrond-sectie .map-panel-sub {
+  font-family: var(--font-tekst);
+  font-size: var(--mini);
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: rgba(251, 250, 246, 0.62);
+  margin: 22px 0 10px;
+}
+
+/* Foto bovenin het paneel, van rand tot rand. Zonder foto: de kaart, uitvergroot. */
+.plattegrond-sectie .map-photo {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  margin: calc(-1 * var(--panel-pad)) calc(-1 * var(--panel-pad)) 16px;
+  border-radius: var(--r-groot) var(--r-groot) 0 0;
+  overflow: hidden;
+  background: #93b868;
+}
+
+.plattegrond-sectie .map-photo-art,
+.plattegrond-sectie .map-photo-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.plattegrond-sectie .map-photo-art {
+  pointer-events: none;
+}
+
+.plattegrond-sectie .map-photo-art svg {
+  width: 100%;
+  height: 100%;
+}
+
+.plattegrond-sectie .map-photo-img {
+  object-fit: cover;
+}
+
+/* "Wat kun je hier doen" */
+.plattegrond-sectie .map-acts {
+  display: grid;
+  gap: 12px;
+}
+
+.plattegrond-sectie .map-acts li {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.plattegrond-sectie .map-act-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(245, 200, 75, 0.16);
+  color: var(--straw);
+}
+
+.plattegrond-sectie .map-act-body {
+  min-width: 0;
+  padding-top: 2px;
+}
+
+.plattegrond-sectie .map-acts strong {
+  display: block;
+  color: var(--paper);
+  font-size: var(--body-klein);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.plattegrond-sectie .map-act-detail {
+  display: block;
+  margin-top: 2px;
+  color: rgba(251, 250, 246, 0.72);
+  font-size: var(--klein);
+  line-height: 1.45;
+}
+
+/* "Goed om te weten" */
+.plattegrond-sectie .check-list {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.plattegrond-sectie .check-list li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: rgba(251, 250, 246, 0.92);
+  font-size: var(--klein);
+  line-height: 1.45;
+}
+
+.plattegrond-sectie .check-list svg {
+  flex: none;
+  margin-top: 1px;
+  color: var(--straw);
+}
+
+.plattegrond-sectie .map-cta {
+  margin-top: 22px;
+  width: 100%;
+}
+
+/* --- het programma ------------------------------------------------------ */
+
+.plattegrond-sectie .map-program-note {
+  margin: 0 0 12px;
+  padding: 9px 12px;
+  border-radius: var(--r-klein);
+  background: rgba(245, 200, 75, 0.16);
+  color: var(--straw-soft);
+  font-size: var(--klein);
+  line-height: 1.5;
+}
+
+.plattegrond-sectie .map-days {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.plattegrond-sectie .map-day {
+  font-family: var(--font-tekst);
+  font-size: var(--klein);
+  font-weight: 700;
+  color: var(--melk);
+  background: transparent;
+  border: 1.5px solid rgba(251, 250, 246, 0.3);
+  border-radius: var(--r-pil);
+  padding: 5px 13px;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.plattegrond-sectie .map-day:hover {
+  border-color: var(--straw);
+}
+
+.plattegrond-sectie .map-day[aria-pressed='true'] {
+  background: var(--straw);
+  border-color: var(--straw);
+  color: var(--green-900);
+}
+
+.plattegrond-sectie .map-program-list {
+  display: grid;
+  gap: 10px;
+}
+
+.plattegrond-sectie .prog {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 12px;
+  padding: 12px 13px;
+  border-radius: var(--r-kaart);
+  background: rgba(251, 250, 246, 0.07);
+  border: 1px solid rgba(251, 250, 246, 0.12);
+}
+
+.plattegrond-sectie .prog-time {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+}
+
+.plattegrond-sectie .prog-time strong {
+  color: var(--straw);
+  font-size: 1.02rem;
+  font-weight: 700;
+}
+
+.plattegrond-sectie .prog-time span {
+  color: rgba(251, 250, 246, 0.6);
+  font-size: var(--mini);
+}
+
+.plattegrond-sectie .prog-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+}
+
+.plattegrond-sectie .prog-title {
+  color: var(--paper);
+  font-size: var(--body-klein);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.plattegrond-sectie .prog-detail {
+  color: rgba(251, 250, 246, 0.72);
+  font-size: var(--klein);
+  line-height: 1.45;
+}
+
+.plattegrond-sectie .prog-spots {
+  margin-top: 3px;
+  font-size: var(--mini);
+  font-weight: 700;
+  color: rgba(251, 250, 246, 0.9);
+}
+
+.plattegrond-sectie .prog-spots.is-full {
+  color: var(--warm-soft);
+}
+
+.plattegrond-sectie .prog-spots.is-closed {
+  color: rgba(251, 250, 246, 0.55);
+}
+
+.plattegrond-sectie .prog-empty {
+  color: rgba(251, 250, 246, 0.72);
+  font-size: var(--klein);
+  line-height: 1.5;
+}
+
+.plattegrond-sectie .prog-btn {
+  margin-top: 6px;
+  font-family: var(--font-tekst);
+  font-size: var(--klein);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--green-900);
+  background: var(--straw);
+  border: 0;
+  border-radius: var(--r-pil);
+  padding: 7px 16px;
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.plattegrond-sectie .prog-btn:hover:not(:disabled) {
+  background: var(--straw-soft);
+  transform: translateY(-1px);
+}
+
+.plattegrond-sectie .prog-btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.plattegrond-sectie .prog-link {
+  margin-top: 4px;
+  font-family: var(--font-tekst);
+  font-size: var(--mini);
+  font-weight: 700;
+  color: rgba(251, 250, 246, 0.82);
+  padding: 2px 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.plattegrond-sectie .prog-link:hover {
+  color: var(--straw);
+}
+
+.plattegrond-sectie .prog-mine {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin: 4px 0 0;
+  color: var(--straw);
+  font-size: var(--klein);
+  font-weight: 700;
+}
+
+.plattegrond-sectie .prog-form {
+  width: 100%;
+  margin-top: 8px;
+  display: grid;
+  gap: 8px;
+}
+
+.plattegrond-sectie .prog-form-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 84px;
+  gap: 8px;
+}
+
+.plattegrond-sectie .prog-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.plattegrond-sectie .prog-field label {
+  font-size: var(--mini);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(251, 250, 246, 0.7);
+}
+
+.plattegrond-sectie .prog-field input,
+.plattegrond-sectie .prog-field select {
+  width: 100%;
+  min-height: 40px;
+  margin: 0;
+  padding: 8px 10px;
+  font-family: var(--font-tekst);
+  font-size: var(--klein);
+  color: var(--inkt);
+  background: var(--paper);
+  border: 2px solid transparent;
+  border-radius: var(--r-klein);
+}
+
+.plattegrond-sectie .prog-field input:focus,
+.plattegrond-sectie .prog-field select:focus {
+  outline: 3px solid var(--straw);
+  outline-offset: 1px;
+}
+
+.plattegrond-sectie .prog-field input[aria-invalid='true'] {
+  border-color: var(--warm-soft);
+}
+
+.plattegrond-sectie .prog-error {
+  margin: 0;
+  color: var(--straw-soft);
+  font-size: var(--mini);
+  font-weight: 700;
+}
+
+.plattegrond-sectie .prog-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+}
+
+.plattegrond-sectie .prog-form-actions .prog-btn,
+.plattegrond-sectie .prog-form-actions .prog-link {
+  margin-top: 0;
+}
+
+.plattegrond-sectie .map-program-demo {
+  margin: 12px 0 0;
+  font-size: var(--mini);
+  line-height: 1.45;
+  color: rgba(251, 250, 246, 0.55);
+}
+
+/* --- meebewegen en smalle schermen -------------------------------------- */
+
+/* Op een breed en hoog scherm blijft de kaart staan terwijl je het paneel leest.
+   De vaste kop van de site is 127 px hoog; daaronder begint de kaart. */
+@media (min-width: 1081px) and (min-height: 820px) {
+  .plattegrond-sectie .map-main {
+    position: sticky;
+    top: 139px;
+  }
+}
+
+@media (max-width: 1080px) {
+  .plattegrond-sectie .map-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .plattegrond-sectie .map-hint {
+    display: block;
+  }
+
+  .plattegrond-sectie .map-panel-titel {
+    font-size: 1.4rem;
+  }
+}
