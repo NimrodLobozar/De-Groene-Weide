@@ -1,0 +1,112 @@
+/* ==========================================================================
+   Design tokens — overgenomen uit de stijlgids van het prototype
+   Wedegroen #2F6B3E · Gras licht #E4F0DE · Schuurbrun #5A3E26 · Stro #F2E8DC
+   Eigel #F5C84B · Kam-oranje #EE8A3C · Inkt #1E2A21 · Melk #FBFAF6
+   Koppen: Bricolage Grotesque 600 · 44 / 32 / 24 px
+   Tekst: Atkinson Hyperlegible 400/700 · 18 px, regelafstand 1,6
+   ========================================================================== */
+
+:root {
+  /* Merkkleuren */
+  --wedegroen: #2f6b3e;
+  --wedegroen-donker: #245230;
+  --wedegroen-licht: #3d7d4c;
+  --gras-licht: #e4f0de;
+  --schuurbrun: #5a3e26;
+  --stro: #f2e8dc;
+  --eigel: #f5c84b;
+  --eigel-donker: #e5b334;
+  --kam-oranje: #ee8a3c;
+  --inkt: #1e2a21;
+  --melk: #fbfaf6;
+
+  /* Afgeleid */
+  --tekst: var(--inkt);
+  --tekst-zacht: #5b6156;
+  --tekst-op-groen: #f4f8f2;
+  --lijn: #e3e1d7;
+  --lijn-sterk: #cdcab9;
+  --vlak: #ffffff;
+  --vlak-zacht: #f7f5ee;
+  --vlak-groen: var(--gras-licht);
+
+  /* Statuskleuren kaart */
+  --status-vrij: #e4f0de;
+  --status-vrij-rand: #b9d7ae;
+  --status-bezet: #dcdcd5;
+  --status-bezet-rand: #c3c3b9;
+  --status-geblokkeerd: #f3c3a2;
+  --status-geblokkeerd-rand: #e5a173;
+  --status-keuze: #f7e2b8;
+  --status-keuze-rand: var(--kam-oranje);
+  --status-tip: var(--eigel);
+
+  /* Typografie */
+  --font-kop: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', Georgia, serif;
+  --font-tekst: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
+
+  --h1: clamp(2rem, 1.15rem + 2.6vw, 2.75rem); /* 44 */
+  --h2: clamp(1.5rem, 1.1rem + 1.3vw, 2rem); /* 32 */
+  --h3: clamp(1.2rem, 1.05rem + 0.5vw, 1.5rem); /* 24 */
+  --body: 1.125rem; /* 18 */
+  --body-klein: 1rem;
+  --klein: 0.875rem;
+  --mini: 0.78rem;
+  --regelafstand: 1.6;
+
+  /* Ruimte */
+  --ruimte-1: 4px;
+  --ruimte-2: 8px;
+  --ruimte-3: 12px;
+  --ruimte-4: 16px;
+  --ruimte-5: 24px;
+  --ruimte-6: 32px;
+  --ruimte-7: 48px;
+  --ruimte-8: 64px;
+  --ruimte-9: 96px;
+
+  --container: 1200px;
+  --gutter: 24px;
+
+  /* Vorm */
+  --r-klein: 8px;
+  --r-kaart: 14px;
+  --r-groot: 20px;
+  --r-pil: 999px;
+
+  --schaduw-1: 0 1px 2px rgb(30 42 33 / 6%);
+  --schaduw-2: 0 10px 30px -12px rgb(30 42 33 / 22%);
+  --schaduw-3: 0 18px 44px -18px rgb(30 42 33 / 30%);
+
+  --ring: 0 0 0 3px rgb(47 107 62 / 25%);
+
+  --kop-plat: 600;
+}
+
+/* Rustknop: minder beweging, minder prikkels */
+html[data-rust='aan'] {
+  scroll-behavior: auto;
+}
+
+html[data-rust='aan'] *,
+html[data-rust='aan'] *::before,
+html[data-rust='aan'] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+html[data-rust='aan'] .sfeer-detail {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

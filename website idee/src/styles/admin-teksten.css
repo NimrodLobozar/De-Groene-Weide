@@ -1,0 +1,129 @@
+/* ==========================================================================
+   Teksten, meldingen en de grap van de dag
+   ========================================================================== */
+
+.teksten__filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--ruimte-3);
+  margin-block: var(--ruimte-4) var(--ruimte-3);
+}
+
+.teksten__filters .veld {
+  flex: 1 1 240px;
+  margin: 0;
+}
+
+.teksten__telling {
+  color: var(--tekst-zacht);
+}
+
+.teksten__lijst,
+.meldingen__lijst {
+  display: grid;
+  gap: var(--ruimte-3);
+  margin-block: var(--ruimte-3);
+}
+
+.tekstrij,
+.meldingrij {
+  display: grid;
+  gap: var(--ruimte-2);
+}
+
+.tekstrij__kop,
+.meldingrij__kop {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ruimte-2);
+}
+
+.tekstrij__sleutel {
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: var(--vlak-zacht);
+  color: var(--tekst-zacht);
+  font-size: var(--mini);
+}
+
+.tekstrij__veld {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--lijn-sterk);
+  border-radius: 10px;
+  background: #fff;
+  font: inherit;
+  resize: vertical;
+}
+
+.tekstrij__veld:focus-visible {
+  outline: 2px solid var(--wedegroen);
+  outline-offset: 1px;
+}
+
+.tekstrij__talen {
+  display: grid;
+  gap: 2px;
+  color: var(--tekst-zacht);
+  font-size: var(--klein);
+}
+
+.tekstrij__talen p,
+.meldingrij__tekst,
+.meldingrij__taal {
+  margin: 0;
+}
+
+.tekstrij__vertaling {
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--vlak-zacht);
+}
+
+.meldingrij__tekst {
+  font-size: var(--body-klein);
+}
+
+.meldingrij__taal,
+.meldingrij__datums {
+  color: var(--tekst-zacht);
+  font-size: var(--klein);
+}
+
+.meldingvoorbeeld {
+  display: grid;
+  gap: 6px;
+  margin-block: var(--ruimte-3);
+}
+
+.meldingvoorbeeld__label {
+  color: var(--tekst-zacht);
+  font-size: var(--mini);
+}
+
+.meldingvoorbeeld .aankondiging {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.grapvoorbeeld {
+  display: grid;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--gras-licht);
+}
+
+.grapvoorbeeld .grapkaartje {
+  position: static;
+  margin-left: auto;
+  animation: none;
+}
+
+.grapideeen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}

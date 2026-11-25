@@ -1,0 +1,1127 @@
+/* ==========================================================================
+   Beweging — speels, maar altijd ondergeschikt aan de rustknop.
+   Alles wat hier staat valt stil bij html[data-rust="aan"] of bij een
+   systeeminstelling voor minder beweging (zie onderaan).
+   ========================================================================== */
+
+:root {
+  --snel: 140ms;
+  --normaal: 260ms;
+  --traag: 620ms;
+  --veertje: cubic-bezier(0.22, 1.2, 0.36, 1);
+  --zacht: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- sleutelbeelden ------------------------------------------------------ */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-0.4deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(0.4deg);
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  45% {
+    transform: translateY(-3px);
+  }
+  60% {
+    transform: translateY(-1px);
+  }
+}
+
+@keyframes wiebel {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-4deg);
+  }
+  75% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes pulseRing {
+  0% {
+    box-shadow: 0 0 0 0 var(--puls-kleur, rgb(238 138 60 / 55%));
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgb(238 138 60 / 0%);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgb(238 138 60 / 0%);
+  }
+}
+
+@keyframes zonNegentien {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    filter: drop-shadow(0 0 0 rgb(245 200 75 / 0%));
+  }
+  50% {
+    transform: translateY(-4px) scale(1.03);
+    filter: drop-shadow(0 0 14px rgb(245 200 75 / 55%));
+  }
+}
+
+@keyframes glans {
+  from {
+    transform: translateX(-120%) skewX(-18deg);
+  }
+  to {
+    transform: translateX(320%) skewX(-18deg);
+  }
+}
+
+@keyframes paginaIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes rijIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes tekenVink {
+  from {
+    stroke-dashoffset: 44;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes plof {
+  0% {
+    opacity: 0;
+    transform: scale(0.6) rotate(-8deg);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.06) rotate(2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes tik {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-5px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  65% {
+    transform: translateY(-2px);
+  }
+}
+
+/* --- binnenkomende blokken ---------------------------------------------- */
+
+.reveleer {
+  opacity: 0;
+  transform: translateY(18px);
+  will-change: opacity, transform;
+}
+
+.reveleer.is-zicht {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--traag) var(--zacht),
+    transform var(--traag) var(--veertje);
+  transition-delay: var(--vertraging, 0ms);
+}
+
+/* het paginagedeelte zelf krijgt een zachte entree */
+main {
+  animation: paginaIn 420ms var(--zacht) both;
+}
+
+/* --- kop van de site ----------------------------------------------------- */
+
+.logo svg {
+  transition: transform var(--normaal) var(--veertje);
+}
+
+.logo:hover svg {
+  animation: tik 620ms ease-in-out;
+}
+
+.hoofdnav a {
+  position: relative;
+  border-bottom: 0;
+}
+
+.hoofdnav a::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--wedegroen);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--normaal) var(--veertje);
+}
+
+.hoofdnav a:hover::after,
+.hoofdnav a[aria-current='page']::after {
+  transform: scaleX(1);
+}
+
+.hoofdnav a[aria-current='page'] {
+  border-bottom: 0;
+}
+
+.taalkeuze__lijst {
+  animation: pop 220ms var(--veertje) both;
+  transform-origin: top left;
+}
+
+.mobiel-menu__paneel {
+  animation: fadeUp 260ms var(--veertje) both;
+}
+
+.rustknop__bol::after {
+  transition: transform var(--normaal) var(--veertje);
+}
+
+/* --- knoppen ------------------------------------------------------------- */
+
+.knop {
+  position: relative;
+  overflow: hidden;
+  transition:
+    background var(--snel) var(--zacht),
+    transform var(--snel) var(--veertje),
+    box-shadow var(--normaal) var(--zacht),
+    border-color var(--snel) var(--zacht);
+}
+
+.knop::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 35%), transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.knop:hover::before {
+  opacity: 1;
+  animation: glans 720ms var(--zacht);
+}
+
+.knop:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px -14px rgb(30 42 33 / 60%);
+}
+
+.knop:active {
+  transform: translateY(0) scale(0.985);
+}
+
+.knop--secundair:hover::before,
+.knop--wit:hover::before,
+.knop--link::before {
+  display: none;
+}
+
+/* pijltje in een link schuift mee */
+.pijllink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color var(--snel) var(--zacht);
+}
+
+.pijllink::after {
+  content: '→';
+  display: inline-block;
+  transition: transform var(--normaal) var(--veertje);
+}
+
+.pijllink:hover::after {
+  transform: translateX(4px);
+}
+
+.chip {
+  transition:
+    background var(--snel) var(--zacht),
+    border-color var(--snel) var(--zacht),
+    color var(--snel) var(--zacht),
+    transform var(--snel) var(--veertje);
+}
+
+.chip:hover {
+  transform: translateY(-1px);
+}
+
+.chip[aria-pressed='true'] {
+  animation: pop 260ms var(--veertje) both;
+}
+
+/* --- kaarten en vlakken -------------------------------------------------- */
+
+.kaart,
+.paneelkaart,
+.tipkaart,
+.beheerkaart,
+.beheerpaneel,
+.waarde,
+.agenda__dag,
+.tabelvak,
+.adviesbalk,
+.ctabalk {
+  transition:
+    transform var(--normaal) var(--veertje),
+    box-shadow var(--normaal) var(--zacht),
+    border-color var(--normaal) var(--zacht);
+}
+
+.kaart:hover,
+.waarde:hover,
+.tipkaart:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -26px rgb(30 42 33 / 55%);
+  border-color: var(--lijn-sterk);
+}
+
+.activiteit {
+  overflow: hidden;
+}
+
+.activiteit .foto,
+.activiteit .fotovak {
+  transition: transform var(--traag) var(--zacht);
+}
+
+.activiteit:hover .foto,
+.activiteit:hover .fotovak {
+  transform: scale(1.04);
+}
+
+.adviesbalk__kip svg {
+  animation: bob 3.4s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+
+.adviesbalk:hover .adviesbalk__kip svg {
+  animation: wiebel 520ms ease-in-out;
+}
+
+.mededeling {
+  animation: fadeUp 300ms var(--zacht) both;
+}
+
+/* --- hero ---------------------------------------------------------------- */
+
+.hero__tekst > * {
+  animation: fadeUp 620ms var(--zacht) both;
+}
+
+.hero__tekst > *:nth-child(1) {
+  animation-delay: 40ms;
+}
+.hero__tekst > *:nth-child(2) {
+  animation-delay: 110ms;
+}
+.hero__tekst > *:nth-child(3) {
+  animation-delay: 180ms;
+}
+.hero__tekst > *:nth-child(4) {
+  animation-delay: 250ms;
+}
+
+.hero__illustratie {
+  animation: fadeIn 900ms var(--zacht) both;
+}
+
+/* ==========================================================================
+   Het verhaal in de hero — drie tijdlijnen die door elkaar heen lopen.
+
+   de kip (28 s)      loopt weg, draait zich om, pikt drie keer naar de grond,
+                      loopt verder en probeert op het eind te vliegen
+   de vogels          twee zwermen: één van 24 s en één van 31 s
+   de tractor (45 s)  rijdt één keer per ronde over de achterste heuvel
+
+   Elke bewegende groep draait om haar eigen (0, 0); de groep eromheen zet dat
+   punt op de plek waar gedraaid wordt. De beginsituatie is het stilstaande
+   beeld, zodat de scène ook zonder beweging klopt.
+   ========================================================================== */
+
+.hero-verhaal * {
+  transform-origin: 0 0;
+}
+
+/* --- de kip --------------------------------------------------------------- */
+
+.hero-verhaal .kip-pad {
+  animation: verhaalKipPad 28s ease-in-out infinite;
+}
+
+.hero-verhaal .kip-richting {
+  animation: verhaalKipRichting 28s linear infinite;
+}
+
+.hero-verhaal .kip-sprong {
+  animation: verhaalKipSprong 28s ease-in-out infinite;
+}
+
+.hero-verhaal .kip-pik {
+  animation: verhaalKipPik 28s ease-in-out infinite;
+}
+
+.hero-verhaal .poten-lopend {
+  opacity: 0;
+  animation: verhaalPotenLopend 28s step-end infinite;
+}
+
+.hero-verhaal .poten-stil {
+  animation: verhaalPotenStil 28s step-end infinite;
+}
+
+.hero-verhaal .poot-achter,
+.hero-verhaal .poot-voor {
+  animation: verhaalStap 0.5s ease-in-out infinite alternate;
+}
+
+.hero-verhaal .poot-voor {
+  animation-delay: -0.5s;
+}
+
+.hero-verhaal .vleugel-slag {
+  opacity: 0;
+  animation: verhaalVleugelSlag 28s step-end infinite;
+}
+
+.hero-verhaal .vleugel-rust {
+  animation: verhaalVleugelRust 28s step-end infinite;
+}
+
+.hero-verhaal .klap {
+  animation: verhaalKlap 0.2s ease-in-out infinite alternate;
+}
+
+/* --- de vogels ------------------------------------------------------------ */
+
+.hero-verhaal .vlucht-a {
+  animation: verhaalVluchtA 24s linear infinite;
+}
+
+.hero-verhaal .vlucht-b {
+  animation: verhaalVluchtB 31s linear infinite;
+}
+
+.hero-verhaal .vleugels {
+  animation: verhaalVleugels 0.7s ease-in-out infinite alternate;
+}
+
+/* --- de tractor ----------------------------------------------------------- */
+
+.hero-verhaal .tractor {
+  transform: translate(-80px, 280px);
+  animation: verhaalTractor 45s linear infinite;
+}
+
+.hero-verhaal .tractor-schud {
+  animation: verhaalTractorSchud 0.16s linear infinite alternate;
+}
+
+.hero-verhaal .tractor-wiel {
+  animation: verhaalWiel 0.5s linear infinite;
+}
+
+.hero-verhaal .puf {
+  opacity: 0;
+  animation: verhaalPuf 0.9s ease-out infinite;
+}
+
+/* --- de losse onderdelen -------------------------------------------------- */
+
+@keyframes verhaalKipPad {
+  0%,
+  8% {
+    transform: translateX(0);
+  }
+  23.5%,
+  34.5% {
+    transform: translateX(-170px);
+  }
+  48.5%,
+  53% {
+    transform: translateX(-300px);
+  }
+  66.5%,
+  77% {
+    transform: translateX(-170px);
+  }
+  93%,
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes verhaalKipRichting {
+  0%,
+  7% {
+    transform: scaleX(1);
+  }
+  8%,
+  52% {
+    transform: scaleX(-1);
+  }
+  53%,
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes verhaalKipPik {
+  0%,
+  23.5% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(50deg);
+  }
+  26.5% {
+    transform: rotate(8deg);
+  }
+  28% {
+    transform: rotate(50deg);
+  }
+  29.5% {
+    transform: rotate(8deg);
+  }
+  31% {
+    transform: rotate(50deg);
+  }
+  33%,
+  100% {
+    transform: rotate(0);
+  }
+}
+
+@keyframes verhaalKipSprong {
+  0%,
+  66.5% {
+    transform: translateY(0);
+  }
+  68% {
+    transform: translateY(-16px);
+  }
+  69.5% {
+    transform: translateY(0);
+  }
+  71% {
+    transform: translateY(-26px);
+  }
+  73% {
+    transform: translateY(0);
+  }
+  74.5% {
+    transform: translateY(-12px);
+  }
+  76%,
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes verhaalPotenLopend {
+  0% {
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  23.5% {
+    opacity: 0;
+  }
+  34.5% {
+    opacity: 1;
+  }
+  48.5% {
+    opacity: 0;
+  }
+  53% {
+    opacity: 1;
+  }
+  66.5% {
+    opacity: 0;
+  }
+  77% {
+    opacity: 1;
+  }
+  93% {
+    opacity: 0;
+  }
+}
+
+@keyframes verhaalPotenStil {
+  0% {
+    opacity: 1;
+  }
+  8% {
+    opacity: 0;
+  }
+  23.5% {
+    opacity: 1;
+  }
+  34.5% {
+    opacity: 0;
+  }
+  48.5% {
+    opacity: 1;
+  }
+  53% {
+    opacity: 0;
+  }
+  66.5% {
+    opacity: 1;
+  }
+  77% {
+    opacity: 0;
+  }
+  93% {
+    opacity: 1;
+  }
+}
+
+@keyframes verhaalStap {
+  from {
+    transform: rotate(-18deg);
+  }
+  to {
+    transform: rotate(18deg);
+  }
+}
+
+@keyframes verhaalVleugelSlag {
+  0% {
+    opacity: 0;
+  }
+  66.5% {
+    opacity: 1;
+  }
+  77% {
+    opacity: 0;
+  }
+}
+
+@keyframes verhaalVleugelRust {
+  0% {
+    opacity: 1;
+  }
+  66.5% {
+    opacity: 0;
+  }
+  77% {
+    opacity: 1;
+  }
+}
+
+@keyframes verhaalKlap {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(70deg);
+  }
+}
+
+@keyframes verhaalVluchtA {
+  0% {
+    transform: translate(-320px, 10px);
+  }
+  32% {
+    transform: translate(20px, -6px);
+  }
+  65%,
+  100% {
+    transform: translate(360px, 4px);
+  }
+}
+
+@keyframes verhaalVluchtB {
+  0%,
+  40% {
+    transform: translate(450px, 6px);
+  }
+  62% {
+    transform: translate(110px, -4px);
+  }
+  85%,
+  100% {
+    transform: translate(-230px, 4px);
+  }
+}
+
+@keyframes verhaalVleugels {
+  from {
+    transform: scaleY(1);
+  }
+  to {
+    transform: scaleY(-0.5);
+  }
+}
+
+@keyframes verhaalTractor {
+  0%,
+  30% {
+    transform: translate(-60px, 280.8px) rotate(-25.6deg);
+  }
+  31.18% {
+    transform: translate(-20px, 261.6px) rotate(-25.6deg);
+  }
+  32.35% {
+    transform: translate(20px, 242.7px) rotate(-23.5deg);
+  }
+  33.53% {
+    transform: translate(60px, 227.9px) rotate(-16.9deg);
+  }
+  34.71% {
+    transform: translate(100px, 218.2px) rotate(-10deg);
+  }
+  35.88% {
+    transform: translate(140px, 213.7px) rotate(-3.1deg);
+  }
+  37.06% {
+    transform: translate(180px, 213.8px) rotate(3.3deg);
+  }
+  38.24% {
+    transform: translate(220px, 218px) rotate(8.7deg);
+  }
+  39.41% {
+    transform: translate(260px, 225.8px) rotate(13deg);
+  }
+  40.59% {
+    transform: translate(300px, 236.2px) rotate(15.8deg);
+  }
+  41.76% {
+    transform: translate(340px, 247px) rotate(11.4deg);
+  }
+  42.94% {
+    transform: translate(380px, 251.3px) rotate(0.9deg);
+  }
+  44.12% {
+    transform: translate(420px, 248.5px) rotate(-8.8deg);
+  }
+  45.29% {
+    transform: translate(460px, 239.3px) rotate(-16.5deg);
+  }
+  46.47% {
+    transform: translate(500px, 225.4px) rotate(-21.2deg);
+  }
+  47.65% {
+    transform: translate(540px, 209.3px) rotate(-21.3deg);
+  }
+  48.82% {
+    transform: translate(580px, 198.4px) rotate(-10.2deg);
+  }
+  50%,
+  100% {
+    transform: translate(620px, 191.2px) rotate(-10.2deg);
+  }
+}
+
+@keyframes verhaalTractorSchud {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-1px);
+  }
+}
+
+@keyframes verhaalWiel {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes verhaalPuf {
+  0% {
+    opacity: 0.9;
+    transform: translate(0, 0) scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-12px, -12px) scale(1.7);
+  }
+}
+
+.grapkaartje {
+  animation:
+    plof 700ms var(--veertje) 400ms both,
+    float 7s ease-in-out 1.2s infinite;
+}
+
+/* --- plattegrond --------------------------------------------------------- */
+
+.plek {
+  animation: pop 320ms var(--veertje) backwards;
+  animation-delay: calc(var(--i, 0) * 6ms);
+}
+
+.plek--klikbaar:hover {
+  transform: translateY(-2px) scale(1.06);
+}
+
+.plek--keuze {
+  animation: pulseRing 2s ease-out infinite;
+}
+
+.plek--tip {
+  animation: wiebel 2.6s ease-in-out infinite;
+}
+
+.erfvak {
+  transition:
+    transform var(--snel) var(--veertje),
+    background var(--snel) var(--zacht);
+}
+
+.erfvak:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.weide {
+  background-size: 200% 100%;
+  transition: box-shadow var(--normaal) var(--zacht);
+}
+
+/* --- boeking ------------------------------------------------------------- */
+
+.stappen__item {
+  transition:
+    background var(--snel) var(--zacht),
+    color var(--snel) var(--zacht),
+    transform var(--snel) var(--veertje);
+}
+
+.stappen__item--klaar:hover,
+.stappen__item:hover {
+  transform: translateY(-1px);
+}
+
+.stappen__item[aria-current='step'] .stappen__bol {
+  animation: pulseRing 2.2s ease-out infinite;
+}
+
+.stappen__bol {
+  transition: transform var(--normaal) var(--veertje);
+}
+
+.stappen__item--klaar .stappen__bol {
+  animation: pop 320ms var(--veertje) both;
+}
+
+.dag {
+  transition:
+    background var(--snel) var(--zacht),
+    transform var(--snel) var(--veertje),
+    color var(--snel) var(--zacht);
+}
+
+.dag:hover:not(:disabled) {
+  transform: scale(1.12);
+}
+
+.dag--gkozen,
+.dag--gekozen {
+  animation: pop 240ms var(--veertje) both;
+}
+
+.teller__bediening button {
+  transition:
+    transform var(--snel) var(--veertje),
+    border-color var(--snel) var(--zacht),
+    color var(--snel) var(--zacht);
+}
+
+.teller__bediening button:hover {
+  transform: scale(1.1);
+}
+
+.teller__bediening button:active {
+  transform: scale(0.94);
+}
+
+.soortkaart {
+  transition:
+    transform var(--normaal) var(--veertje),
+    border-color var(--snel) var(--zacht),
+    box-shadow var(--normaal) var(--zacht);
+}
+
+.soortkaart:hover {
+  transform: translateY(-3px);
+}
+
+.soortkaart.is-gekozen {
+  animation: pop 300ms var(--veertje) both;
+}
+
+.tipkaart:nth-child(1) {
+  animation-delay: 0ms;
+}
+.tipkaart:nth-child(2) {
+  animation-delay: 90ms;
+}
+.tipkaart:nth-child(3) {
+  animation-delay: 180ms;
+}
+
+.tips .tipkaart {
+  animation: fadeUp 460ms var(--veertje) both;
+}
+
+.tabbeladen {
+  display: inline-flex;
+}
+
+.tab {
+  transition:
+    background var(--snel) var(--zacht),
+    color var(--snel) var(--zacht),
+    transform var(--snel) var(--veertje);
+}
+
+.tab[aria-selected='true'] {
+  animation: pop 240ms var(--veertje) both;
+}
+
+/* --- bevestiging --------------------------------------------------------- */
+
+.bevestiging__vink {
+  animation: pop 420ms var(--veertje) both;
+}
+
+.bevestiging__vink svg path {
+  stroke-dasharray: 44;
+  animation: tekenVink 620ms var(--zacht) 220ms both;
+}
+
+.controlelijst div {
+  animation: fadeUp 380ms var(--zacht) both;
+}
+
+.controlelijst div:nth-child(1) {
+  animation-delay: 60ms;
+}
+.controlelijst div:nth-child(2) {
+  animation-delay: 120ms;
+}
+.controlelijst div:nth-child(3) {
+  animation-delay: 180ms;
+}
+.controlelijst div:nth-child(4) {
+  animation-delay: 240ms;
+}
+.controlelijst div:nth-child(5) {
+  animation-delay: 300ms;
+}
+
+/* --- tabellen in het beheer --------------------------------------------- */
+
+.tabel tbody tr {
+  animation: rijIn 320ms var(--zacht) both;
+}
+
+.tabel tbody tr:nth-child(2) {
+  animation-delay: 20ms;
+}
+.tabel tbody tr:nth-child(3) {
+  animation-delay: 40ms;
+}
+.tabel tbody tr:nth-child(4) {
+  animation-delay: 60ms;
+}
+.tabel tbody tr:nth-child(5) {
+  animation-delay: 80ms;
+}
+.tabel tbody tr:nth-child(6) {
+  animation-delay: 100ms;
+}
+
+.tabel tbody tr:hover {
+  background: #fbfaf6;
+}
+
+.beheer__navitem {
+  transition:
+    background var(--snel) var(--zacht),
+    color var(--snel) var(--zacht),
+    transform var(--snel) var(--veertje);
+}
+
+.beheer__navitem:hover {
+  transform: translateX(3px);
+}
+
+.beheerkaart {
+  animation: fadeUp 420ms var(--zacht) both;
+}
+
+.beheerkaart:nth-child(2) {
+  animation-delay: 60ms;
+}
+.beheerkaart:nth-child(3) {
+  animation-delay: 120ms;
+}
+.beheerkaart:nth-child(4) {
+  animation-delay: 180ms;
+}
+
+.beheerkaart__getal {
+  display: inline-block;
+  animation: pop 420ms var(--veertje) both;
+}
+
+.formulier {
+  animation: fadeUp 320ms var(--veertje) both;
+  transform-origin: top center;
+}
+
+.stippel {
+  animation: pulseRing 2.4s ease-out infinite;
+}
+
+.beheer__lijstitem {
+  transition: background var(--snel) var(--zacht);
+}
+
+.beheer__lijstitem:hover {
+  background: #fbfaf6;
+}
+
+/* --- kleine dingen ------------------------------------------------------- */
+
+.faq__item summary {
+  transition: color var(--snel) var(--zacht);
+}
+
+.faq__item summary:hover {
+  color: var(--wedegroen);
+}
+
+.faq__item[open] {
+  animation: fadeIn 220ms var(--zacht) both;
+}
+
+.fotovak--slot {
+  transition:
+    transform var(--normaal) var(--veertje),
+    border-color var(--snel) var(--zacht);
+}
+
+.fotovak--slot:hover {
+  transform: translateY(-3px) rotate(-0.6deg);
+  border-color: var(--wedegroen);
+}
+
+.koprij h2,
+.sectiekop {
+  animation: fadeUp 480ms var(--zacht) both;
+}
+
+/* --- rustknop en systeeminstelling -------------------------------------- */
+
+html[data-rust='aan'] *,
+html[data-rust='aan'] *::before,
+html[data-rust='aan'] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+html[data-rust='aan'] .reveleer,
+html[data-rust='aan'] .reveleer.is-zicht {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .reveleer,
+  .reveleer.is-zicht {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

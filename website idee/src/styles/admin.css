@@ -1,0 +1,571 @@
+/* ==========================================================================
+   Beheeromgeving
+   ========================================================================== */
+
+.beheer {
+  display: grid;
+  grid-template-columns: 246px minmax(0, 1fr);
+  min-height: 100vh;
+  background: #f4f2ec;
+}
+
+.beheer__zijkant {
+  background: var(--wedegroen-donker);
+  color: #fff;
+  padding: var(--ruimte-4) 12px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ruimte-4);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.beheer__merk {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  text-decoration: none;
+  font-family: var(--font-kop);
+  font-weight: 600;
+  font-size: 1.02rem;
+  padding-inline: 6px;
+}
+
+.beheer__merk svg {
+  width: 26px;
+  height: 26px;
+}
+
+.beheer__nav {
+  display: grid;
+  gap: 2px;
+}
+
+.beheer__navitem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  color: rgb(255 255 255 / 80%);
+  text-decoration: none;
+  font-size: 0.85rem;
+  line-height: 1.2;
+}
+
+.beheer__navitem svg {
+  flex: none;
+  opacity: 0.9;
+}
+
+.beheer__navitem:hover {
+  background: rgb(255 255 255 / 12%);
+  color: #fff;
+}
+
+.beheer__navitem[aria-current='page'] {
+  background: #fff;
+  color: var(--wedegroen-donker);
+  font-weight: 700;
+}
+
+.beheer__onder {
+  margin-top: auto;
+  display: grid;
+  gap: 8px;
+  font-size: var(--mini);
+  padding-inline: 4px;
+}
+
+.beheer__onder .tekst-zacht {
+  color: rgb(255 255 255 / 65%);
+}
+
+.beheer__hoofd {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.beheer__balk {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ruimte-4);
+  padding: 10px var(--ruimte-5);
+  background: #fff;
+  border-bottom: 1px solid var(--lijn);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.beheer__balk-titel {
+  font-family: var(--font-kop);
+  font-weight: 600;
+}
+
+.beheer__balk-rechts {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.beheer__inhoud {
+  padding: var(--ruimte-5);
+  display: grid;
+  gap: var(--ruimte-4);
+  align-content: start;
+}
+
+.beheer__kop {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--ruimte-4);
+  flex-wrap: wrap;
+}
+
+.beheer__kop h1 {
+  font-size: 1.6rem;
+  margin-bottom: 4px;
+}
+
+.beheer__pijlen {
+  display: flex;
+  gap: 8px;
+}
+
+.beheer__kaarten {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--ruimte-3);
+}
+
+.beheerkaart {
+  background: #fff;
+  border: 1px solid var(--lijn);
+  border-radius: 12px;
+  padding: var(--ruimte-4);
+}
+
+.beheerkaart--groen {
+  background: var(--wedegroen);
+  color: #fff;
+  border-color: transparent;
+}
+
+.beheerkaart__label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+  margin-bottom: 4px;
+}
+
+.beheerkaart__getal {
+  font-family: var(--font-kop);
+  font-size: 1.9rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.beheerkaart__hint {
+  font-size: var(--mini);
+  opacity: 0.75;
+}
+
+.beheer__raster {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: var(--ruimte-3);
+  align-items: start;
+}
+
+.beheerpaneel {
+  background: #fff;
+  border: 1px solid var(--lijn);
+  border-radius: 12px;
+  padding: var(--ruimte-4);
+  display: grid;
+  gap: var(--ruimte-3);
+  align-content: start;
+}
+
+.beheerpaneel__kop {
+  font-size: 1.02rem;
+}
+
+.beheer__lijst {
+  display: grid;
+}
+
+.beheer__lijstitem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--lijn);
+  font-size: 0.86rem;
+  line-height: 1.3;
+}
+
+.beheer__lijstitem:last-child {
+  border-bottom: 0;
+}
+
+.beheer__nummer {
+  margin-left: auto;
+  font-size: var(--mini);
+  color: var(--tekst-zacht);
+  font-variant-numeric: tabular-nums;
+}
+
+.beheer__dag {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  background: var(--gras-licht);
+  color: var(--wedegroen-donker);
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  flex: none;
+  text-transform: uppercase;
+}
+
+.stippel {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.stippel--groen {
+  background: var(--wedegroen);
+}
+
+.stippel--oranje {
+  background: var(--kam-oranje);
+}
+
+.snelkoppelingen {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.snelkoppelingen a {
+  display: block;
+  padding: 10px 12px;
+  border: 1px solid var(--lijn);
+  border-radius: 8px;
+  font-size: 0.82rem;
+  text-decoration: none;
+  color: var(--inkt);
+}
+
+.snelkoppelingen a:hover {
+  border-color: var(--wedegroen);
+  color: var(--wedegroen);
+}
+
+.beheer__filters {
+  display: flex;
+  gap: var(--ruimte-3);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.zoekveld {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1.5px solid var(--lijn-sterk);
+  background: #fff;
+  border-radius: var(--r-pil);
+  padding: 5px 14px;
+  color: var(--tekst-zacht);
+}
+
+.zoekveld input {
+  border: 0;
+  background: none;
+  outline: none;
+  min-width: 210px;
+  font-size: 0.86rem;
+  color: var(--inkt);
+  padding-block: 4px;
+}
+
+.tabel--beheer {
+  font-size: 0.84rem;
+}
+
+.tabel--beheer th,
+.tabel--beheer td {
+  padding: 9px var(--ruimte-3);
+}
+
+.tabel--beheer thead th {
+  font-size: 10.5px;
+}
+
+.kolom-smalk {
+  width: 30px;
+  text-align: center;
+}
+
+.bezettingstabel {
+  overflow-x: auto;
+}
+
+.tabel--bezetting {
+  font-size: 10.5px;
+  min-width: 880px;
+  border-collapse: collapse;
+}
+
+.tabel--bezetting th,
+.tabel--bezetting td {
+  padding: 4px 5px;
+  border: 1px solid var(--lijn);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.tabel--bezetting thead th {
+  background: var(--vlak-zacht);
+  font-size: 9.5px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.tabel--bezetting tbody th {
+  text-align: left;
+  font-weight: 700;
+  background: #fbfaf6;
+}
+
+.cel--bezet {
+  background: #d7e8ce;
+  color: #33502a;
+  font-weight: 700;
+}
+
+.cel--vrij {
+  background: #fff;
+}
+
+.fotoraster {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--ruimte-3);
+}
+
+.fotovak--slot {
+  aspect-ratio: 4 / 3;
+  background: #fff;
+  border: 1.5px dashed var(--lijn-sterk);
+  border-radius: 12px;
+  display: grid;
+  place-content: center;
+  gap: 6px;
+  justify-items: center;
+  color: var(--tekst-zacht);
+  padding: 10px;
+}
+
+.fotovak--slot figcaption {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--inkt);
+  text-align: center;
+}
+
+/* --- formulieren in het beheer ------------------------------------------ */
+
+.formulier__velden {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--ruimte-3);
+}
+
+.formulier__velden .veld--breed {
+  grid-column: 1 / -1;
+}
+
+.veld--breed {
+  grid-column: 1 / -1;
+}
+
+.checkveld-lijst {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ruimte-3);
+}
+
+.foto--thumb {
+  width: 100%;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.erfvak.is-dicht {
+  opacity: 0.45;
+  text-decoration: line-through;
+}
+
+/* --- gegevensbeheer ------------------------------------------------------ */
+
+.gegevenslijst {
+  display: grid;
+  gap: 2px;
+}
+
+.gegevenslijst li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ruimte-3);
+  padding: 8px 2px;
+  border-bottom: 1px solid var(--lijn);
+  font-size: 0.86rem;
+}
+
+.gegevenslijst li:last-child {
+  border-bottom: 0;
+}
+
+.gegevenslijst strong {
+  font-variant-numeric: tabular-nums;
+}
+
+.gegevenslijst--acties li span:first-child {
+  flex: 1;
+}
+
+.wisbevestig {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.wisbevestig .invoer {
+  width: 200px;
+}
+
+.beheerpaneel--gevaar {
+  border-color: #e8b4a8;
+  background: #fdf4f1;
+}
+
+/* --- afdelingen met eigen verwijderknop ---------------------------------- */
+
+.afdelingen {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--ruimte-3);
+  align-items: start;
+}
+
+.afdeling {
+  align-content: start;
+}
+
+.afdeling__kop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ruimte-3);
+}
+
+.afdeling__kop .label {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Knoppen in een paneel niet laten uitrekken over de hele breedte. */
+.beheerpaneel > .knop,
+.beheerpaneel > .wisbevestig {
+  justify-self: start;
+}
+
+/* --- inloggen ------------------------------------------------------------ */
+
+.beheer-inloggen {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: var(--wedegroen);
+  padding: var(--ruimte-5);
+}
+
+.beheer-inloggen__kaart {
+  width: min(430px, 100%);
+  background: #fff;
+  border-radius: 18px;
+  padding: var(--ruimte-6);
+  display: grid;
+  gap: var(--ruimte-3);
+  box-shadow: 0 30px 70px -30px rgb(0 0 0 / 45%);
+}
+
+.beheer-inloggen__kaart h1 {
+  font-size: 1.55rem;
+}
+
+.beheer-inloggen__merk {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-kop);
+  font-weight: 600;
+  color: var(--wedegroen-donker);
+}
+
+.beheer-inloggen__merk svg {
+  width: 30px;
+  height: 30px;
+}
+
+@media (max-width: 1000px) {
+  .beheer {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .beheer__zijkant {
+    position: static;
+    height: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .beheer__nav {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .beheer__onder {
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+  .beheer__kaarten {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .beheer__raster {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .fotoraster {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
